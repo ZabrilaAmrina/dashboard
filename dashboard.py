@@ -6,8 +6,8 @@ import streamlit as st
  
 # load dataset
 
-df_day = pd.read_csv("https://github.com/ZabrilaAmrina/dashboard/blob/main/cleaned_bikeshare_day.csv")
-df_hour = pd.read_csv("https://github.com/ZabrilaAmrina/dashboard/blob/main/cleaned_bikeshare_hour.csv")
+df_day = pd.read_csv("https://raw.githubusercontent.com/ZabrilaAmrina/dashboard/main/cleaned_bikeshare_day.csv")
+df_hour = pd.read_csv("https://raw.githubusercontent.com/ZabrilaAmrina/dashboard/main/cleaned_bikeshare_hour.csv")
 df_day['date'] = pd.to_datetime(df_day['date'])
 df_hour['date'] = pd.to_datetime(df_hour['date'])
 st.set_page_config(page_title="Capital Bikeshare: Bike-sharing Dashboard",
