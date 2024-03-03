@@ -215,7 +215,7 @@ total_yearly['Jumlah penyewa'] = total_yearly.sum(axis=1)
 years_yearly = total_yearly.index
 total_rentals_yearly = total_yearly['Jumlah penyewa']
 fig_yearly, ax_yearly = plt.subplots(figsize=(10, 6))
-ax_yearly.bar(years_yearly, total_rentals_yearly, color=['#90CAF9', '#2196F3'])
+ax_yearly.bar(years_yearly, total_rentals_yearly, color=['skyblue', 'orange'])
 ax_yearly.set_xlabel('Tahun')
 ax_yearly.set_ylabel('Jumlah Penyewaan')
 ax_yearly.set_title('Total Penyewaan Sepeda per Tahun')
