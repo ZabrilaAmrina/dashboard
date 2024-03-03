@@ -103,16 +103,7 @@ def create_hourly_users_df(df_hour):
 
 min_date = df_day["date"].min()
 max_date = df_day["date"].max()
-
-# ----- SIDEBAR -----
-
-with st.sidebar:
-    # add capital bikeshare logo
-    st.image("https://raw.githubusercontent.com/RendyAdiyana/Bike-Sharing/main/Images/pngwing.com.png")
-
-    st.sidebar.header("Filter:")
-    
-    
+        
     # mengambil start_date & end_date dari date_input
     start_date, end_date = st.date_input(
         label="Date Filter", min_value=min_date,
