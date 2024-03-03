@@ -214,7 +214,7 @@ total_yearly = main_df_day.groupby('year')[['registered', 'casual']].sum()
 total_yearly['Jumlah penyewa'] = total_yearly.sum(axis=1)
 years_yearly = total_yearly.index
 total_rentals_yearly = total_yearly['Jumlah penyewa']
-fig_yearly, ax_yearly = plt.subplots(figsize=(6, 2))
+fig_yearly, ax_yearly = plt.subplots(figsize=(8, 4))
 ax_yearly.bar(years_yearly, total_rentals_yearly, color=['skyblue', 'orange'])
 ax_yearly.set_xlabel('Tahun')
 ax_yearly.set_ylabel('Jumlah Penyewaan')
