@@ -166,7 +166,54 @@ with col3:
     st.metric("Total Registered Rides", value=total_registered_rides)
 
 st.markdown("---")
-st.caption('Copyright (c), Created by Rendy Adiyana Budiman')
+
+# ----- CHART -----
+fig = px.line(monthly_users_df,
+              x='yearmonth',
+              y=['casual_rides', 'registered_rides', 'total_rides'],
+              color_discrete_sequence=["skyblue", "orange", "red"],
+              markers=True,
+              title="Monthly Count of Bikeshare Rides").update_layout(xaxis_title='', yaxis_title='Total Rides')
+
+st.plotly_chart(fig, use_container_width=True)
+
+fig1 = px.bar(seasonly_users_df,
+              x='season',
+              y=['count_rides'],
+              color='type_of_rides',
+              color_discrete_sequence=["skyblue", "orange", "red"],
+              title='Count of bikeshare rides by season').update_layout(xaxis_title='', yaxis_title='Total Rides')
+
+#st.plotly_chart(fig, use_container_width=True)
+fig2 = px.bar(weatherly_users_df,
+              x='weather',
+              y=['count_rides'],
+              color='type_of_rides',
+              barmode='group',
+              color_discrete_sequence=["skyblue", "orange", "red"],
+              title='Count of bikeshare rides by weather').update_layout(xaxis_title='', yaxis_title='Total Rides')
+
+
+left_column, right_column = st.columns(2)
+left_column.plotly_chart(fig1, use_container_width=True)
+right_column.plotly_chart(fig2, use_container_width=True)
+
+fig = px.line(hourly_users_df,
+              x='hour',
+              y=['casual_rides', 'registered_rides'],
+              color_discrete_sequence=["skyblue", "orange"],
+              markers=True,
+              title='Count of bikeshare rides by hour of day').update_layout(xaxis_title='', yaxis_title='Total Rides')
+
+st.plotly_chart(fig, use_container_width=True)
+
+fig3 = px.scatter(df_day, x='temp', y='count', color='season', title='Clusters of bikeshare rides count by season and temperature')
+fig4 = px.scatter(df_day, x='humidity', y='count', color='season', title='Clusters of bikeshare rides count by season and humidity')
+left_column, right_column = st.columns(2)
+left_column.plotly_chart(fig3, use_container_width=True)
+right_column.plotly_chart(fig4, use_container_width=True)
+
+st.caption('Copyright (c), Zabrila Amrina Zadia Putri')
 
 # ----- HIDE STREAMLIT STYLE -----
 hide_st_style = """
