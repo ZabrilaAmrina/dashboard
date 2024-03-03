@@ -3,8 +3,9 @@ import matplotlib.pyplot as plt
 import seaborn as sns
 import plotly.express as px
 import streamlit as st
+ 
+# load dataset
 
-# Load dataset
 df_day = pd.read_csv("https://raw.githubusercontent.com/ZabrilaAmrina/dashboard/main/cleaned_bikeshare_day.csv")
 df_hour = pd.read_csv("https://raw.githubusercontent.com/ZabrilaAmrina/dashboard/main/cleaned_bikeshare_hour.csv")
 df_day['date'] = pd.to_datetime(df_day['date'])
@@ -13,16 +14,106 @@ st.set_page_config(page_title="Capital Bikeshare: Bike-sharing Dashboard",
                    page_icon="bar_chart:",
                    layout="wide")
 
-# Helper functions
-# (your existing helper functions)
+# create helper functions
 
-# Sidebar filters
+def create_monthly_users_df(df_day):
+    monthly_users_df = df_day.resample(rule='M', on='date').agg({
+        "casual": "sum",
+        "registered": "sum",
+        "count": "sum"
+    })
+    monthly_users_df.index = monthly_users_df.index.strftime('%b-%y')
+    monthly_users_df = monthly_users_df.reset_index()
+    monthly_users_df.rename(columns={
+        "date": "yearmonth",
+        "count": "total_rides",
+        "casual": "casual_rides",
+        "registered": "registered_rides"
+    }, inplace=True)
+    
+    return monthly_users_df
+
+def create_seasonly_users_df(df_day):
+    seasonly_users_df = df_day.groupby("season").agg({
+        "casual": "sum",
+        "registered": "sum",
+        "count": "sum"
+    })
+    seasonly_users_df = seasonly_users_df.reset_index()
+    seasonly_users_df.rename(columns={
+        "count": "total_rides",
+        "casual": "casual_rides",
+        "registered": "registered_rides"
+    }, inplace=True)
+    
+    seasonly_users_df = pd.melt(seasonly_users_df,
+                                      id_vars=['season'],
+                                      value_vars=['casual_rides', 'registered_rides'],
+                                      var_name='type_of_rides',
+                                      value_name='count_rides')
+    
+    seasonly_users_df['season'] = pd.Categorical(seasonly_users_df['season'],
+                                             categories=['Spring', 'Summer', 'Fall', 'Winter'])
+    
+    seasonly_users_df = seasonly_users_df.sort_values('season')
+    
+    return seasonly_users_df
+
+def create_weatherly_users_df(df_day):
+    weatherly_users_df = df_day.groupby("weather").agg({
+        "casual": "sum",
+        "registered": "sum",
+        "count": "sum"
+    })
+    weatherly_users_df = weatherly_users_df.reset_index()
+    weatherly_users_df.rename(columns={
+        "count": "total_rides",
+        "casual": "casual_rides",
+        "registered": "registered_rides"
+    }, inplace=True)
+    
+    weatherly_users_df = pd.melt(weatherly_users_df,
+                                      id_vars=['weather'],
+                                      value_vars=['casual_rides', 'registered_rides'],
+                                      var_name='type_of_rides',
+                                      value_name='count_rides')
+    
+    weatherly_users_df['weather'] = pd.Categorical(weatherly_users_df['weather'],
+                                             categories=['Clear/Partly Cloudy','Misty/Cloudy','Light Snow/Rain','Severe Weather'])
+    weatherly_users_df = weatherly_users_df.sort_values('weather')
+    
+    return weatherly_users_df
+
+def create_hourly_users_df(df_hour):
+    hourly_users_df = df_hour.groupby('hour').agg({
+    "casual": "sum",
+    "registered": "sum",
+    "count": "sum"
+    })
+    hourly_users_df = hourly_users_df.reset_index()
+    hourly_users_df.rename(columns={
+        "count": "total_rides",
+        "casual": "casual_rides",
+        "registered": "registered_rides"
+    }, inplace=True)
+    
+    return hourly_users_df
+
+# make filter components (komponen filter)
+
 min_date = df_day["date"].min()
 max_date = df_day["date"].max()
 
+# ----- SIDEBAR -----
+
 with st.sidebar:
+    # add capital bikeshare logo
     st.image("https://raw.githubusercontent.com/ZabrilaAmrina/dashboard/main/images.jpg")
+
     st.sidebar.header("Filter:")
+    
+    
+    # mengambil start_date & end_date dari date_input
     start_date, end_date = st.date_input(
         label="Date Filter", min_value=min_date,
         max_value=max_date,
@@ -30,7 +121,9 @@ with st.sidebar:
     )
 
 st.sidebar.header("Visit my Profile:")
-st.sidebar.markdown("Rendy Adiyana Budiman")
+
+st.sidebar.markdown("Zabrila Amrina Zadia Putri")
+
 col1, col2 = st.sidebar.columns(2)
 
 with col1:
@@ -38,7 +131,8 @@ with col1:
 with col2:
     st.markdown("[![Github](https://img.icons8.com/glyph-neue/64/FFFFFF/github.png)](https://github.com/ZabrilaAmrina)")
 
-# Filter data
+# hubungkan filter dengan main_df
+
 main_df_day = df_day[
     (df_day["date"] >= str(start_date)) &
     (df_day["date"] <= str(end_date))
@@ -48,25 +142,17 @@ main_df_hour = df_hour[
     (df_hour["date"] <= str(end_date))
 ]
 
-# Assign main_df ke helper functions yang telah dibuat sebelumnya
-print("Before calling create_monthly_users_df")
-print(main_df_day.head())  # Print some information about main_df_day
+# assign main_df ke helper functions yang telah dibuat sebelumnya
 
-try:
-    monthly_users_df = create_monthly_users_df(main_df_day)
-except Exception as e:
-    print(f"Error in create_monthly_users_df: {e}")
-    raise
+monthly_users_df = create_monthly_users_df(main_df_day)
+seasonly_users_df = create_seasonly_users_df(main_df_day)
+hourly_users_df = create_hourly_users_df(main_df_hour)
+weatherly_users_df = create_weatherly_users_df(main_df_day)
 
-print("After calling create_monthly_users_df")
-print(monthly_users_df.head())  # Print some information about monthly_users_df
-
-
-# Main Page
+# ----- MAINPAGE -----
 st.title("Capital Bikeshare: Bike-Sharing Dashboard Zabrila Amrina Zadia Putri")
 st.markdown("##")
 
-# Metrics
 col1, col2, col3 = st.columns(3)
 
 with col1:
@@ -81,7 +167,7 @@ with col3:
 
 st.markdown("---")
 
-# Monthly Rides Line Chart
+# ----- CHART -----
 fig = px.line(monthly_users_df,
               x='yearmonth',
               y=['casual_rides', 'registered_rides', 'total_rides'],
@@ -91,7 +177,6 @@ fig = px.line(monthly_users_df,
 
 st.plotly_chart(fig, use_container_width=True)
 
-# Seasonal and Weather Bar Charts
 fig1 = px.bar(seasonly_users_df,
               x='season',
               y=['count_rides'],
@@ -99,6 +184,7 @@ fig1 = px.bar(seasonly_users_df,
               color_discrete_sequence=["skyblue", "orange", "red"],
               title='Count of bikeshare rides by season').update_layout(xaxis_title='', yaxis_title='Total Rides')
 
+#st.plotly_chart(fig, use_container_width=True)
 fig2 = px.bar(weatherly_users_df,
               x='weather',
               y=['count_rides'],
@@ -107,11 +193,11 @@ fig2 = px.bar(weatherly_users_df,
               color_discrete_sequence=["skyblue", "orange", "red"],
               title='Count of bikeshare rides by weather').update_layout(xaxis_title='', yaxis_title='Total Rides')
 
+
 left_column, right_column = st.columns(2)
 left_column.plotly_chart(fig1, use_container_width=True)
 right_column.plotly_chart(fig2, use_container_width=True)
 
-# Hourly Rides Line Chart
 fig = px.line(hourly_users_df,
               x='hour',
               y=['casual_rides', 'registered_rides'],
@@ -121,43 +207,14 @@ fig = px.line(hourly_users_df,
 
 st.plotly_chart(fig, use_container_width=True)
 
-# Additional Seaborn Visualizations
-st.subheader("Additional Visualizations:")
+st.caption('Copyright (c), Created by Zabrila Amrina Zadia Putri')
 
-# Set style
-sns.set(style="whitegrid")
-
-# Peminjaman sepeda di hari libur
-plt.figure(figsize=(12, 6))
-plt.subplot(1, 2, 1)
-sns.barplot(x='holiday', y='count', data=main_df_day, estimator=sum, ci=None)
-plt.title('Total Peminjaman Sepeda pada Hari Libur')
-
-# Peminjaman sepeda di hari kerja
-plt.subplot(1, 2, 2)
-sns.barplot(x='workingday', y='count', data=main_df_day, estimator=sum, ci=None)
-plt.title('Total Peminjaman Sepeda pada Hari Kerja')
-
-plt.tight_layout()
-st.pyplot()
-
-# Visualisasi total peminjaman sepeda setiap tahun
-plt.figure(figsize=(12, 6))
-sns.barplot(x='year', y='count', data=main_df_day, palette='muted')
-plt.title('Total Peminjaman Sepeda Perusahaan Setiap Tahun')
-plt.xlabel('Tahun')
-plt.ylabel('Total Peminjaman')
-st.pyplot()
-
-# Menampilkan informasi tentang tahun dengan peminjaman tertinggi
-st.subheader(f"Tahun dengan Peminjaman Tertinggi: {main_df_day['year'].iloc[0]} (Jumlah: {main_df_day['count'].max()})")
-
-# Hide Streamlit Style
+# ----- HIDE STREAMLIT STYLE -----
 hide_st_style = """
-<style>
-#MainMenu {visibility: hidden;}
-footer {visibility: hidden;}
-header {visibility: hidden;}
-</style>
-"""
+                <style>
+                #MainMenu {visibility: hidden;}
+                footer {visibility: hidden;}
+                header {visibility: hidden;}
+                </style>
+                """
 st.markdown(hide_st_style, unsafe_allow_html=True)
