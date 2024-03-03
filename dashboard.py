@@ -103,7 +103,16 @@ def create_hourly_users_df(df_hour):
 
 min_date = df_day["date"].min()
 max_date = df_day["date"].max()
-        
+
+# ----- SIDEBAR -----
+
+with st.sidebar:
+    # add capital bikeshare logo
+    st.image("https://raw.githubusercontent.com/RendyAdiyana/Bike-Sharing/main/Images/pngwing.com.png")
+
+    st.sidebar.header("Filter:")
+    
+    
     # mengambil start_date & end_date dari date_input
     start_date, end_date = st.date_input(
         label="Date Filter", min_value=min_date,
@@ -113,14 +122,14 @@ max_date = df_day["date"].max()
 
 st.sidebar.header("Visit my Profile:")
 
-st.sidebar.markdown("Rendy Adiyana Budiman")
+st.sidebar.markdown("Zabrila Amrina Zadia Putri")
 
 col1, col2 = st.sidebar.columns(2)
 
 with col1:
-    st.markdown("[![LinkedIn](https://content.linkedin.com/content/dam/me/business/en-us/amp/brand-site/v2/bg/LI-Bug.svg.original.svg)](https://www.linkedin.com/in/rendyadiyana/)")
+    st.markdown("[![LinkedIn](https://content.linkedin.com/content/dam/me/business/en-us/amp/brand-site/v2/bg/LI-Bug.svg.original.svg)](https://www.linkedin.com/in/zabrila-amrina-a33812290)")
 with col2:
-    st.markdown("[![Github](https://img.icons8.com/glyph-neue/64/FFFFFF/github.png)](https://github.com/RendyAdiyana)")
+    st.markdown("[![Github](https://img.icons8.com/glyph-neue/64/FFFFFF/github.png)](https://github.com/ZabrilaAmrina)")
 
 # hubungkan filter dengan main_df
 
@@ -141,7 +150,7 @@ hourly_users_df = create_hourly_users_df(main_df_hour)
 weatherly_users_df = create_weatherly_users_df(main_df_day)
 
 # ----- MAINPAGE -----
-st.title("Capital Bikeshare: Bike-Sharing Dashboard Rendy Adiyana Budiman")
+st.title("Capital Bikeshare: Bike-Sharing Dashboard Zabrila Amrina Zadia Putri")
 st.markdown("##")
 
 col1, col2, col3 = st.columns(3)
