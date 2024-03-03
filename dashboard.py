@@ -168,59 +168,29 @@ with col3:
 st.markdown("---")
 
 # ----- CHART -----
-fig = px.line(monthly_users_df,
-              x='yearmonth',
-              y=['casual_rides', 'registered_rides', 'total_rides'],
-              color_discrete_sequence=["skyblue", "orange", "red"],
-              markers=True,
-              title="Monthly Count of Bikeshare Rides").update_layout(xaxis_title='', yaxis_title='Total Rides')
+# 1. Berapa banyak peminjaman sepeda saat holiday dan workingday? serta di musim apa peminjaman sepeda meningkat?
+fig1 = px.bar(main_df_day, x='holiday', y='count', color='season', title='Total Peminjaman Sepeda pada Hari Libur dan Hari Kerja')
+st.plotly_chart(fig1, use_container_width=True)
 
-st.plotly_chart(fig, use_container_width=True)
+# 2. Berapa banyak peminjaman sepeda saat cuaca
+# ----- CHART (lanjutan) -----
 
-fig1 = px.bar(seasonly_users_df,
-              x='season',
-              y=['count_rides'],
-              color='type_of_rides',
-              color_discrete_sequence=["skyblue", "orange", "red"],
-              title='Count of bikeshare rides by season').update_layout(xaxis_title='', yaxis_title='Total Rides')
+# 2. Berapa banyak peminjaman sepeda saat cuaca cerah dibandingkan dengan cuaca hujan? serta cuaca mana yang paling banyak peminjaman sepeda?
+fig2 = px.bar(weatherly_users_df, x='weather', y='count_rides', color='type_of_rides', title='Total Peminjaman Sepeda berdasarkan Cuaca')
+st.plotly_chart(fig2, use_container_width=True)
 
-#st.plotly_chart(fig, use_container_width=True)
-fig2 = px.bar(weatherly_users_df,
-              x='weather',
-              y=['count_rides'],
-              color='type_of_rides',
-              barmode='group',
-              color_discrete_sequence=["skyblue", "orange", "red"],
-              title='Count of bikeshare rides by weather').update_layout(xaxis_title='', yaxis_title='Total Rides')
+# 3. Bagaimana keseluruhan peminjaman sepeda perusahaan tersebut setiap tahunnya? serta peminjaman tertinggi di terjadi pada tahun apa?
+fig3 = px.line(monthly_users_df, x='yearmonth', y='total_rides', title='Total Peminjaman Sepeda per Bulan')
+st.plotly_chart(fig3, use_container_width=True)
 
+# Menampilkan peminjaman tertinggi dan tahunnya
+max_rides_year = monthly_users_df.loc[monthly_users_df['total_rides'].idxmax()]
+st.markdown(f"**Peminjaman Sepeda Tertinggi:** {max_rides_year['total_rides']} rides pada {max_rides_year['yearmonth']}")
 
-left_column, right_column = st.columns(2)
-left_column.plotly_chart(fig1, use_container_width=True)
-right_column.plotly_chart(fig2, use_container_width=True)
+# ----- RAW DATA -----
+st.markdown("## Raw Data")
+st.write("Data Peminjaman Sepeda Harian")
+st.write(main_df_day)
 
-fig = px.line(hourly_users_df,
-              x='hour',
-              y=['casual_rides', 'registered_rides'],
-              color_discrete_sequence=["skyblue", "orange"],
-              markers=True,
-              title='Count of bikeshare rides by hour of day').update_layout(xaxis_title='', yaxis_title='Total Rides')
-
-st.plotly_chart(fig, use_container_width=True)
-
-fig3 = px.scatter(df_day, x='temp', y='count', color='season', title='Clusters of bikeshare rides count by season and temperature')
-fig4 = px.scatter(df_day, x='humidity', y='count', color='season', title='Clusters of bikeshare rides count by season and humidity')
-left_column, right_column = st.columns(2)
-left_column.plotly_chart(fig3, use_container_width=True)
-right_column.plotly_chart(fig4, use_container_width=True)
-
-st.caption('Copyright (c), Zabrila Amrina Zadia Putri')
-
-# ----- HIDE STREAMLIT STYLE -----
-hide_st_style = """
-                <style>
-                #MainMenu {visibility: hidden;}
-                footer {visibility: hidden;}
-                header {visibility: hidden;}
-                </style>
-                """
-st.markdown(hide_st_style, unsafe_allow_html=True)
+st.write("Data Peminjaman Sepeda per Jam")
+st.write(main_df_hour)
