@@ -1,6 +1,6 @@
 import streamlit as st
 import pandas as pd
-import seaborn as sn
+import seaborn as sns
 import matplotlib.pyplot as plt
 
 # Load your data
@@ -9,9 +9,9 @@ daily_data = pd.read_csv('day.csv')
 
 # Function to set style and display barplot
 def display_barplot(x, y, data, title, xlabel, ylabel):
-    sn.set(style="whitegrid")
+    sns.set(style="whitegrid")
     plt.figure(figsize=(12, 6))
-    sn.barplot(x=x, y=y, data=data, estimator=sum, ci=None)
+    sns.barplot(x=x, y=y, data=data, estimator=sum, ci=None)
     plt.title(title)
     plt.xlabel(xlabel)
     plt.ylabel(ylabel)
