@@ -119,36 +119,35 @@ with st.sidebar:
     st.caption('Copyright (c), Created by Zabrila Amrina Zadia Putri')
 
     # Additional Seaborn Visualizations
-      st.subheader("Additional Visualizations:")
+st.subheader("Additional Visualizations:")
 
-    # Set style
-    sn.set(style="whitegrid")
+# Set style
+sns.set(style="whitegrid")
 
-    # Peminjaman sepeda di hari libur
-    plt.figure(figsize=(12, 6))
-    plt.subplot(1, 2, 1)
-    sn.barplot(x='holiday', y='count', data=main_df_day, estimator=sum, ci=None)
-    plt.title('Total Peminjaman Sepeda pada Hari Libur')
+# Peminjaman sepeda di hari libur
+plt.figure(figsize=(12, 6))
+plt.subplot(1, 2, 1)
+sns.barplot(x='holiday', y='count', data=main_df_day, estimator=sum, ci=None)
+plt.title('Total Peminjaman Sepeda pada Hari Libur')
 
-    # Peminjaman sepeda di hari kerja
-    plt.subplot(1, 2, 2)
-    sn.barplot(x='workingday', y='count', data=main_df_day, estimator=sum, ci=None)
-    plt.title('Total Peminjaman Sepeda pada Hari Kerja')
+# Peminjaman sepeda di hari kerja
+plt.subplot(1, 2, 2)
+sns.barplot(x='workingday', y='count', data=main_df_day, estimator=sum, ci=None)
+plt.title('Total Peminjaman Sepeda pada Hari Kerja')
 
-    plt.tight_layout()
-    st.pyplot()
+plt.tight_layout()
+st.pyplot()
 
-    # Set style
-    sn.set(style="whitegrid")
+# Set style
+sns.set(style="whitegrid")
 
-    # Visualisasi total peminjaman sepeda setiap tahun
-    plt.figure(figsize=(12, 6))
-    sn.barplot(x='year', y='count', data=main_df_day, palette='muted')
-    plt.title('Total Peminjaman Sepeda Perusahaan Setiap Tahun')
-    plt.xlabel('Tahun')
-    plt.ylabel('Total Peminjaman')
-    st.pyplot()
+# Visualisasi total peminjaman sepeda setiap tahun
+plt.figure(figsize=(12, 6))
+sns.barplot(x='year', y='count', data=main_df_day, palette='muted')
+plt.title('Total Peminjaman Sepeda Perusahaan Setiap Tahun')
+plt.xlabel('Tahun')
+plt.ylabel('Total Peminjaman')
+st.pyplot()
 
-    # Menampilkan informasi tentang tahun dengan peminjaman tertinggi
-    st.subheader(f"Tahun dengan Peminjaman Tertinggi: {main_df_day['year'].iloc[0]} (Jumlah: {main_df_day['count'].max()})")
-    gi})")
+# Menampilkan informasi tentang tahun dengan peminjaman tertinggi
+st.subheader(f"Tahun dengan Peminjaman Tertinggi: {main_df_day['year'].iloc[0]} (Jumlah: {main_df_day['count'].max()})")
