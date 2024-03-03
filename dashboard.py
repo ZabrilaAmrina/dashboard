@@ -48,11 +48,19 @@ main_df_hour = df_hour[
     (df_hour["date"] <= str(end_date))
 ]
 
-# Assign data to helper functions
-monthly_users_df = create_monthly_users_df(main_df_day)
-seasonly_users_df = create_seasonly_users_df(main_df_day)
-hourly_users_df = create_hourly_users_df(main_df_hour)
-weatherly_users_df = create_weatherly_users_df(main_df_day)
+# Assign main_df ke helper functions yang telah dibuat sebelumnya
+print("Before calling create_monthly_users_df")
+print(main_df_day.head())  # Print some information about main_df_day
+
+try:
+    monthly_users_df = create_monthly_users_df(main_df_day)
+except Exception as e:
+    print(f"Error in create_monthly_users_df: {e}")
+    raise
+
+print("After calling create_monthly_users_df")
+print(monthly_users_df.head())  # Print some information about monthly_users_df
+
 
 # Main Page
 st.title("Capital Bikeshare: Bike-Sharing Dashboard Zabrila Amrina Zadia Putri")
