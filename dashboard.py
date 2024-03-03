@@ -209,6 +209,19 @@ st.plotly_chart(fig, use_container_width=True)
 
 st.caption('Copyright (c), Created by Zabrila Amrina Zadia Putri')
 
+st.subheader("Total Peminjaman Sepeda per Tahun")
+total_yearly = main_df_days.groupby('year')[['registered', 'casual']].sum()
+total_yearly['Jumlah penyewa'] = total_yearly.sum(axis=1)
+years_yearly = total_yearly.index
+total_rentals_yearly = total_yearly['Jumlah penyewa']
+fig_yearly, ax_yearly = plt.subplots(figsize=(10, 6))
+ax_yearly.bar(years_yearly, total_rentals_yearly, color=['#90CAF9', '#2196F3'])
+ax_yearly.set_xlabel('Tahun')
+ax_yearly.set_ylabel('Jumlah Penyewaan')
+ax_yearly.set_title('Total Penyewaan Sepeda per Tahun')
+st.pyplot(fig_yearly)
+st.write("Terlihat jelas bahwa jumlah penyewaan pada tahun 2012 lebih tinggi dengan jumlah 2049576 daripada tahun 2011 dengan jumlah 2049576")
+
 # ----- HIDE STREAMLIT STYLE -----
 hide_st_style = """
                 <style>
