@@ -212,10 +212,6 @@ fig_yearly.update_layout(xaxis_title='', yaxis_title='Total Rides', showlegend=T
 
 st.plotly_chart(fig_yearly, use_container_width=True)
 
-st.subheader("Total Peminjaman Sepeda per Tahun")
-total_yearly = main_df_day.groupby('year')[['registered', 'casual']].sum()
-total_yearly['Jumlah penyewa'] = total_yearly.sum(axis=1)
-
 # Check available years
 st.write(main_df_day['year'].unique())
 
