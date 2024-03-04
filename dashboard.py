@@ -122,7 +122,7 @@ with st.sidebar:
 
 st.sidebar.header("Visit my Profile:")
 
-st.sidebar.markdown("Rendy Adiyana Budiman")
+st.sidebar.markdown("Zabrila Amrina Zadia Putri")
 
 col1, col2 = st.sidebar.columns(2)
 
