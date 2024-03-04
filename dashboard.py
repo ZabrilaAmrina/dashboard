@@ -199,16 +199,15 @@ left_column, right_column = st.columns(2)
 left_column.plotly_chart(fig1, use_container_width=True)
 right_column.plotly_chart(fig2, use_container_width=True)
 
-fig_yearly = px.line(total_yearly,
-                    x='hour',
+fig_yearly = px.line(total_yearly.reset_index(),
+                    x='year',
                     y=['casual_rides', 'registered_rides'],
                     color_discrete_sequence=["skyblue", "orange"],
                     markers=True,
-                    title='Count of bikeshare rides by hour of day')
+                    title='Count of bikeshare rides by year')
 fig_yearly.update_layout(xaxis_title='', yaxis_title='Total Rides', showlegend=True)
 
 st.plotly_chart(fig_yearly, use_container_width=True)
-
 
 st.subheader("Total Peminjaman Sepeda per Tahun")
 total_yearly = main_df_day.groupby('year')[['registered', 'casual']].sum()
