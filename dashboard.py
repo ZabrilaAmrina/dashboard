@@ -211,8 +211,12 @@ st.subheader("Total Peminjaman Sepeda per Tahun")
 total_yearly = main_df_day.groupby('year')[['registered', 'casual']].sum()
 total_yearly['Jumlah penyewa'] = total_yearly.sum(axis=1)
 
-# Filter only years 2011 and 2012
-total_yearly = total_yearly.loc[['2011', '2012']]
+# Check available years
+st.write(main_df_day['year'].unique())
+
+# Filter only available years
+available_years = ['2011', '2012']
+total_yearly = total_yearly.loc[available_years]
 
 years_yearly = total_yearly.index
 total_rentals_yearly = total_yearly['Jumlah penyewa']
@@ -223,6 +227,7 @@ ax_yearly.set_ylabel('Jumlah Penyewaan')
 ax_yearly.set_title('Total Penyewaan Sepeda per Tahun')
 st.pyplot(fig_yearly)
 st.write("Terlihat jelas bahwa jumlah penyewaan pada tahun 2012 lebih tinggi dengan jumlah 2049576 daripada tahun 2011 dengan jumlah 2049576")
+
 
 st.caption('Copyright (c), Created by Zabrila Amrina Zadia Putri')
 
