@@ -207,11 +207,7 @@ fig = px.line(hourly_users_df,
 
 st.plotly_chart(fig, use_container_width=True)
 
-left_column, right_column = st.columns(2)
-left_column.plotly_chart(fig3, use_container_width=True)
-right_column.plotly_chart(fig4, use_container_width=True)
-
-st.caption('Copyright (c), Created by Rendy Adiyana Budiman')
+st.caption('Copyright (c), Created by Zabrila Amrina Zadia Putri')
 
 # ----- HIDE STREAMLIT STYLE -----
 hide_st_style = """
