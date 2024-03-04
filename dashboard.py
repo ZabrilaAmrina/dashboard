@@ -215,10 +215,9 @@ st.write(main_df_day['year'].unique())
 
 total_yearly = main_df_day.groupby('year')[['registered', 'casual']].sum()
 
-# Filter only available years
-available_years = ['2011', '2012']
-total_yearly = total_yearly.loc[available_years]
-
+st.subheader("Total Peminjaman Sepeda per Tahun")
+total_yearly = main_df_day.groupby('year')[['registered', 'casual']].sum()
+total_yearly['Jumlah penyewa'] = total_yearly.sum(axis=1)
 years_yearly = total_yearly.index
 total_rentals_yearly = total_yearly['Jumlah penyewa']
 fig_yearly, ax_yearly = plt.subplots(figsize=(8, 4))
