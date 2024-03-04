@@ -15,24 +15,6 @@ st.set_page_config(page_title="Capital Bikeshare: Bike-sharing Dashboard",
                    layout="wide")
 
 # create helper functions
-
-def create_monthly_users_df(df_day):
-    monthly_users_df = df_day.resample(rule='M', on='date').agg({
-        "casual": "sum",
-        "registered": "sum",
-        "count": "sum"
-    })
-    monthly_users_df.index = monthly_users_df.index.strftime('%b-%y')
-    monthly_users_df = monthly_users_df.reset_index()
-    monthly_users_df.rename(columns={
-        "date": "yearmonth",
-        "count": "total_rides",
-        "casual": "casual_rides",
-        "registered": "registered_rides"
-    }, inplace=True)
-    
-    return monthly_users_df
-
 def create_seasonly_users_df(df_day):
     seasonly_users_df = df_day.groupby("season").agg({
         "casual": "sum",
@@ -83,22 +65,6 @@ def create_weatherly_users_df(df_day):
     weatherly_users_df = weatherly_users_df.sort_values('weather')
     
     return weatherly_users_df
-
-def create_hourly_users_df(df_hour):
-    hourly_users_df = df_hour.groupby('hour').agg({
-    "casual": "sum",
-    "registered": "sum",
-    "count": "sum"
-    })
-    hourly_users_df = hourly_users_df.reset_index()
-    hourly_users_df.rename(columns={
-        "count": "total_rides",
-        "casual": "casual_rides",
-        "registered": "registered_rides"
-    }, inplace=True)
-    
-    return hourly_users_df
-
 # make filter components (komponen filter)
 
 min_date = df_day["date"].min()
@@ -144,9 +110,7 @@ main_df_hour = df_hour[
 
 # assign main_df ke helper functions yang telah dibuat sebelumnya
 
-monthly_users_df = create_monthly_users_df(main_df_day)
 seasonly_users_df = create_seasonly_users_df(main_df_day)
-hourly_users_df = create_hourly_users_df(main_df_hour)
 weatherly_users_df = create_weatherly_users_df(main_df_day)
 
 # ----- MAINPAGE -----
@@ -168,15 +132,6 @@ with col3:
 st.markdown("---")
 
 # ----- CHART -----
-fig = px.line(monthly_users_df,
-              x='yearmonth',
-              y=['casual_rides', 'registered_rides', 'total_rides'],
-              color_discrete_sequence=["skyblue", "orange", "red"],
-              markers=True,
-              title="Monthly Count of Bikeshare Rides").update_layout(xaxis_title='', yaxis_title='Total Rides')
-
-st.plotly_chart(fig, use_container_width=True)
-
 fig1 = px.bar(seasonly_users_df,
               x='season',
               y=['count_rides'],
