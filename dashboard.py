@@ -149,6 +149,9 @@ seasonly_users_df = create_seasonly_users_df(main_df_day)
 weatherly_users_df = create_weatherly_users_df(main_df_day)
 yearly_users_df = create_yearly_users_df(main_df_day)
 
+# Calculate total yearly rides
+total_yearly = main_df_day.groupby('year')[['registered', 'casual']].sum()
+total_yearly['Jumlah penyewa'] = total_yearly.sum(axis=1)
 
 # ----- MAINPAGE -----
 st.title("Capital Bikeshare: Bike-Sharing Dashboard Zabrila Amrina Zadia Putri")
