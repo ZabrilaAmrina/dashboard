@@ -108,7 +108,7 @@ max_date = df_day["date"].max()
 
 with st.sidebar:
     # add capital bikeshare logo
-     st.image("https://raw.githubusercontent.com/ZabrilaAmrina/dashboard/main/images.jpg")
+    st.image("https://raw.githubusercontent.com/ZabrilaAmrina/dashboard/main/images.jpg")
 
     st.sidebar.header("Filter:")
     
