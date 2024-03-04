@@ -212,9 +212,6 @@ fig_yearly.update_layout(xaxis_title='', yaxis_title='Total Rides', showlegend=T
 
 st.plotly_chart(fig_yearly, use_container_width=True)
 
-# Check available years
-st.write(main_df_day['year'].unique())
-
 st.caption('Copyright (c), Created by Zabrila Amrina Zadia Putri')
 
 # ----- HIDE STREAMLIT STYLE -----
