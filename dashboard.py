@@ -84,13 +84,13 @@ def create_weatherly_users_df(df_day):
     
     return weatherly_users_df
 
-def create_yearly_users_df_bar(df):
-    yearly_users_df = df.groupby('year').agg({
+def create_yearly_users_df(df):
+    yearly_users_df = df.groupby(df['date'].dt.year).agg({
         "casual": "sum",
         "registered": "sum",
         "count": "sum"
     })
-    yearly_users_df = yearly_users_df.reset_index()
+    yearly_users_df.reset_index(inplace=True)
     yearly_users_df.rename(columns={
         "count": "total_rides",
         "casual": "casual_rides",
@@ -98,6 +98,7 @@ def create_yearly_users_df_bar(df):
     }, inplace=True)
     
     return yearly_users_df
+
 # make filter components (komponen filter)
 
 min_date = df_day["date"].min()
@@ -149,7 +150,7 @@ weatherly_users_df = create_weatherly_users_df(main_df_day)
 yearly_users_df = create_yearly_users_df(main_df_day)
 
 # Calculate total yearly rides
-total_yearly = create_yearly_users_df_bar(main_df_day)
+total_yearly = create_yearly_users_df(main_df_day)
 
 # ----- MAINPAGE -----
 st.title("Capital Bikeshare: Bike-Sharing Dashboard Zabrila Amrina Zadia Putri")
