@@ -6,8 +6,8 @@ import streamlit as st
  
 # load dataset
 
-df_day = pd.read_csv("https://raw.githubusercontent.com/RendyAdiyana/Bike-Sharing/main/Dashboard/cleaned_bikeshare_day.csv")
-df_hour = pd.read_csv("https://raw.githubusercontent.com/RendyAdiyana/Bike-Sharing/main/Dashboard/cleaned_bikeshare_hour.csv")
+df_day = pd.read_csv("https://raw.githubusercontent.com/ZabrilaAmrina/dashboard/main/cleaned_bikeshare_day.csv")
+df_hour = pd.read_csv("https://raw.githubusercontent.com/ZabrilaAmrina/dashboard/main/cleaned_bikeshare_hour.csv")
 df_day['date'] = pd.to_datetime(df_day['date'])
 df_hour['date'] = pd.to_datetime(df_hour['date'])
 st.set_page_config(page_title="Capital Bikeshare: Bike-sharing Dashboard",
@@ -127,9 +127,9 @@ st.sidebar.markdown("Rendy Adiyana Budiman")
 col1, col2 = st.sidebar.columns(2)
 
 with col1:
-    st.markdown("[![LinkedIn](https://content.linkedin.com/content/dam/me/business/en-us/amp/brand-site/v2/bg/LI-Bug.svg.original.svg)](https://www.linkedin.com/in/rendyadiyana/)")
+    st.markdown("[![LinkedIn](https://content.linkedin.com/content/dam/me/business/en-us/amp/brand-site/v2/bg/LI-Bug.svg.original.svg)](www.linkedin.com/in/zabrila-amrina-a33812290)")
 with col2:
-    st.markdown("[![Github](https://img.icons8.com/glyph-neue/64/FFFFFF/github.png)](https://github.com/RendyAdiyana)")
+    st.markdown("[![Github](https://img.icons8.com/glyph-neue/64/FFFFFF/github.png)](https://github.com/ZabrilaAmrina)")
 
 # hubungkan filter dengan main_df
 
@@ -150,7 +150,7 @@ hourly_users_df = create_hourly_users_df(main_df_hour)
 weatherly_users_df = create_weatherly_users_df(main_df_day)
 
 # ----- MAINPAGE -----
-st.title("Capital Bikeshare: Bike-Sharing Dashboard Rendy Adiyana Budiman")
+st.title("Capital Bikeshare: Bike-Sharing Dashboard Zabrila Amrina Zadia Putri")
 st.markdown("##")
 
 col1, col2, col3 = st.columns(3)
