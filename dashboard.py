@@ -85,7 +85,7 @@ def create_weatherly_users_df(df_day):
     return weatherly_users_df
 
 def create_hourly_users_df(df_hour):
-    hourly_users_df = df_hour.groupby('hour').agg({
+    hourly_users_df = df_hour.groupby('year').agg({
     "casual": "sum",
     "registered": "sum",
     "count": "sum"
