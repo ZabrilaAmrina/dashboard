@@ -146,7 +146,6 @@ main_df_hour = df_hour[
 
 monthly_users_df = create_monthly_users_df(main_df_day)
 seasonly_users_df = create_seasonly_users_df(main_df_day)
-hourly_users_df = create_hourly_users_df(main_df_hour)
 weatherly_users_df = create_weatherly_users_df(main_df_day)
 yearly_users_df = create_yearly_users_df(main_df_day)
 
@@ -200,14 +199,16 @@ left_column, right_column = st.columns(2)
 left_column.plotly_chart(fig1, use_container_width=True)
 right_column.plotly_chart(fig2, use_container_width=True)
 
-fig = px.line(hourly_users_df,
-              x='hour',
-              y=['casual_rides', 'registered_rides'],
-              color_discrete_sequence=["skyblue", "orange"],
-              markers=True,
-              title='Count of bikeshare rides by hour of day').update_layout(xaxis_title='', yaxis_title='Total Rides')
+fig_yearly = px.line(total_yearly,
+                    x='hour',
+                    y=['casual_rides', 'registered_rides'],
+                    color_discrete_sequence=["skyblue", "orange"],
+                    markers=True,
+                    title='Count of bikeshare rides by hour of day')
+fig_yearly.update_layout(xaxis_title='', yaxis_title='Total Rides', showlegend=True)
 
-st.plotly_chart(fig, use_container_width=True)
+st.plotly_chart(fig_yearly, use_container_width=True)
+
 
 st.subheader("Total Peminjaman Sepeda per Tahun")
 total_yearly = main_df_day.groupby('year')[['registered', 'casual']].sum()
@@ -215,22 +216,6 @@ total_yearly['Jumlah penyewa'] = total_yearly.sum(axis=1)
 
 # Check available years
 st.write(main_df_day['year'].unique())
-
-# Filter only available years
-available_years = ['2011', '2012']
-total_yearly = yearly_users_df.loc[yearly_users_df['year'].isin(available_years)]
-
-years_yearly = total_yearly['year']
-total_rentals_yearly = total_yearly['Jumlah penyewa']
-
-fig_yearly, ax_yearly = plt.subplots(figsize=(8, 4))
-ax_yearly.bar(years_yearly, total_rentals_yearly, color=['skyblue', 'orange'])
-ax_yearly.set_xlabel('Tahun')
-ax_yearly.set_ylabel('Jumlah Penyewaan')
-ax_yearly.set_title('Total Penyewaan Sepeda per Tahun')
-st.pyplot(fig_yearly)
-st.write("Terlihat jelas bahwa jumlah penyewaan pada tahun 2012 lebih tinggi dengan jumlah 2049576 daripada tahun 2011 dengan jumlah 2049576")
-
 
 st.caption('Copyright (c), Created by Zabrila Amrina Zadia Putri')
 
