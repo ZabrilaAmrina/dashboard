@@ -207,8 +207,6 @@ fig = px.line(hourly_users_df,
 
 st.plotly_chart(fig, use_container_width=True)
 
-fig3 = px.scatter(df_day, x='temp', y='count', color='season', title='Clusters of bikeshare rides count by season and temperature')
-fig4 = px.scatter(df_day, x='humidity', y='count', color='season', title='Clusters of bikeshare rides count by season and humidity')
 left_column, right_column = st.columns(2)
 left_column.plotly_chart(fig3, use_container_width=True)
 right_column.plotly_chart(fig4, use_container_width=True)
