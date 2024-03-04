@@ -96,8 +96,9 @@ def create_yearly_users_df(df):
         "casual": "casual_rides",
         "registered": "registered_rides"
     }, inplace=True)
-    
+
     return yearly_users_df
+
 
 # make filter components (komponen filter)
 
@@ -201,7 +202,7 @@ left_column, right_column = st.columns(2)
 left_column.plotly_chart(fig1, use_container_width=True)
 right_column.plotly_chart(fig2, use_container_width=True)
 
-fig_yearly = px.bar(total_yearly,
+fig_yearly = px.bar(yearly_users_df,
                     x='year',
                     y=['casual_rides', 'registered_rides'],
                     color_discrete_sequence=["skyblue", "orange"],
