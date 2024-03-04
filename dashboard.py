@@ -137,7 +137,7 @@ fig1 = px.bar(seasonly_users_df,
               y=['count_rides'],
               color='type_of_rides',
               color_discrete_sequence=["skyblue", "orange", "red"],
-              title='Count of bikeshare rides by season').update_layout(xaxis_title='', yaxis_title='Total Rides')
+              title='peminjaman sepeda pada musim').update_layout(xaxis_title='', yaxis_title='Total Rides')
 
 #st.plotly_chart(fig, use_container_width=True)
 fig2 = px.bar(weatherly_users_df,
@@ -146,7 +146,7 @@ fig2 = px.bar(weatherly_users_df,
               color='type_of_rides',
               barmode='group',
               color_discrete_sequence=["skyblue", "orange", "red"],
-              title='Count of bikeshare rides by weather').update_layout(xaxis_title='', yaxis_title='Total Rides')
+              title='peminjaman sepeda pada cuaca').update_layout(xaxis_title='', yaxis_title='Total Rides')
 
 
 left_column, right_column = st.columns(2)
@@ -155,11 +155,6 @@ right_column.plotly_chart(fig2, use_container_width=True)
 
 # ----- YEARLY BIKE RENTALS -----
 st.subheader("Total Peminjaman Sepeda per Tahun")
-
-# print unique years before filtering
-st.write(main_df_day['year'].unique())
-
-total_yearly = main_df_day.groupby('year')[['registered', 'casual']].sum()
 
 st.subheader("Total Peminjaman Sepeda per Tahun")
 total_yearly = main_df_day.groupby('year')[['registered', 'casual']].sum()
