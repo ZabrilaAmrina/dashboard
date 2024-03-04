@@ -1,7 +1,5 @@
 # dashboard
 
-# dashboard
-
 # Project Akhir: Analisis Data dengan Python
 
 ##### Repositori ini berisi proyek akhir tentang analisis data menggunakan Python. Proyek ini mencakup penggunaan berbagai library seperti NumPy, Pandas, Matplotlib, Seaborn, dan Streamlit untuk melakukan analisis data, visualisasi, dan pembuatan dashboard interaktif.
