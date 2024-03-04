@@ -84,7 +84,7 @@ def create_weatherly_users_df(df_day):
     
     return weatherly_users_df
 
-def create_yearly_users_df(df):
+def create_yearly_users_df_bar(df):
     yearly_users_df = df.groupby('year').agg({
         "casual": "sum",
         "registered": "sum",
@@ -98,7 +98,6 @@ def create_yearly_users_df(df):
     }, inplace=True)
     
     return yearly_users_df
-
 # make filter components (komponen filter)
 
 min_date = df_day["date"].min()
@@ -150,8 +149,7 @@ weatherly_users_df = create_weatherly_users_df(main_df_day)
 yearly_users_df = create_yearly_users_df(main_df_day)
 
 # Calculate total yearly rides
-total_yearly = main_df_day.groupby('year')[['registered', 'casual']].sum()
-total_yearly['Jumlah penyewa'] = total_yearly.sum(axis=1)
+total_yearly = create_yearly_users_df_bar(main_df_day)
 
 # ----- MAINPAGE -----
 st.title("Capital Bikeshare: Bike-Sharing Dashboard Zabrila Amrina Zadia Putri")
@@ -202,13 +200,11 @@ left_column, right_column = st.columns(2)
 left_column.plotly_chart(fig1, use_container_width=True)
 right_column.plotly_chart(fig2, use_container_width=True)
 
-fig_yearly = px.line(total_yearly.reset_index(),
+fig_yearly = px.bar(total_yearly,
                     x='year',
                     y=['casual_rides', 'registered_rides'],
                     color_discrete_sequence=["skyblue", "orange"],
-                    markers=True,
-                    title='Count of bikeshare rides by year')
-fig_yearly.update_layout(xaxis_title='', yaxis_title='Total Rides', showlegend=True)
+                    title='Count of bikeshare rides by year').update_layout(xaxis_title='', yaxis_title='Total Rides')
 
 st.plotly_chart(fig_yearly, use_container_width=True)
 
