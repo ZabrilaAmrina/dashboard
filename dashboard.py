@@ -198,15 +198,6 @@ left_column, right_column = st.columns(2)
 left_column.plotly_chart(fig1, use_container_width=True)
 right_column.plotly_chart(fig2, use_container_width=True)
 
-fig = px.line(hourly_users_df,
-              x='hour',
-              y=['casual_rides', 'registered_rides'],
-              color_discrete_sequence=["skyblue", "orange"],
-              markers=True,
-              title='Count of bikeshare rides by hour of day').update_layout(xaxis_title='', yaxis_title='Total Rides')
-
-st.plotly_chart(fig, use_container_width=True)
-
 # ----- YEARLY BIKE RENTALS -----
 st.subheader("Total Peminjaman Sepeda per Tahun")
 
