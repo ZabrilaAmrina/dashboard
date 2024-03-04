@@ -84,20 +84,20 @@ def create_weatherly_users_df(df_day):
     
     return weatherly_users_df
 
-def create_hourly_users_df(df_hour):
-    hourly_users_df = df_hour.groupby('year').agg({
-    "casual": "sum",
-    "registered": "sum",
-    "count": "sum"
+def create_yearly_users_df(df):
+    yearly_users_df = df.groupby('year').agg({
+        "casual": "sum",
+        "registered": "sum",
+        "count": "sum"
     })
-    hourly_users_df = hourly_users_df.reset_index()
-    hourly_users_df.rename(columns={
+    yearly_users_df = yearly_users_df.reset_index()
+    yearly_users_df.rename(columns={
         "count": "total_rides",
         "casual": "casual_rides",
         "registered": "registered_rides"
     }, inplace=True)
     
-    return hourly_users_df
+    return yearly_users_df
 
 # make filter components (komponen filter)
 
@@ -148,6 +148,8 @@ monthly_users_df = create_monthly_users_df(main_df_day)
 seasonly_users_df = create_seasonly_users_df(main_df_day)
 hourly_users_df = create_hourly_users_df(main_df_hour)
 weatherly_users_df = create_weatherly_users_df(main_df_day)
+yearly_users_df = create_yearly_users_df(main_df_day)
+
 
 # ----- MAINPAGE -----
 st.title("Capital Bikeshare: Bike-Sharing Dashboard Zabrila Amrina Zadia Putri")
@@ -216,10 +218,11 @@ st.write(main_df_day['year'].unique())
 
 # Filter only available years
 available_years = ['2011', '2012']
-total_yearly = total_yearly.loc[available_years]
+total_yearly = yearly_users_df.loc[yearly_users_df['year'].isin(available_years)]
 
-years_yearly = total_yearly.index
+years_yearly = total_yearly['year']
 total_rentals_yearly = total_yearly['Jumlah penyewa']
+
 fig_yearly, ax_yearly = plt.subplots(figsize=(8, 4))
 ax_yearly.bar(years_yearly, total_rentals_yearly, color=['skyblue', 'orange'])
 ax_yearly.set_xlabel('Tahun')
