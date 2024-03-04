@@ -207,9 +207,8 @@ fig = px.line(hourly_users_df,
 
 st.plotly_chart(fig, use_container_width=True)
 
-# ----- YEARLY BIKE RENTALS -----
 st.subheader("Total Peminjaman Sepeda per Tahun")
-total_yearly = main_df_day.groupby('year')[['casual_rides', 'registered_rides']].sum()
+total_yearly = main_df_day.groupby('year')[['registered', 'casual']].sum()
 total_yearly['Jumlah penyewa'] = total_yearly.sum(axis=1)
 years_yearly = total_yearly.index
 total_rentals_yearly = total_yearly['Jumlah penyewa']
